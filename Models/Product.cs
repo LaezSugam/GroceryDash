@@ -40,7 +40,7 @@ namespace GroceryDash.Models
         public string Name {get; set;}
 
         [Required]
-        [Range(1, Int32.MaxValue)]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Must choose at least one category. If an appropriate category does not exist please feel free to create one.")]
         [Display(Name = "Category")]
         public int CategoryId {get; set;}
 

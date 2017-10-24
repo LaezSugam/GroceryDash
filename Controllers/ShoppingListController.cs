@@ -84,6 +84,9 @@ namespace GroceryDash.Controllers
        [HttpGet]
        [Route("listdetails/{id}")]
        public IActionResult ListDetails(int id){
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
 
            ShoppingList currentList = _context.ShoppingLists.Where(sl => sl.id == id).Include(sl => sl.ShoppingListUsers).Include(sl => sl.Products).ThenInclude(p => p.Product).SingleOrDefault();
 
@@ -106,13 +109,22 @@ namespace GroceryDash.Controllers
        [Route("addtolist")]
        public IActionResult AddToList(int productId, int repeat, int listId){
 
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
            if(productId >= 0){
                ShoppingListsProducts toAdd = new ShoppingListsProducts{
                    ShoppingListId = listId,
                    ProductId = productId,
                    Repeat = repeat
                };
+
+               _context.ShoppingListsProducts.Add(toAdd);
+               _context.SaveChanges();
            }
+
+           
 
            return RedirectToAction("ListDetails", new {id = listId});
        }

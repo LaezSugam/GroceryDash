@@ -24,7 +24,40 @@ namespace GroceryDash.Controllers
         [Route("createproduct")]
         public IActionResult CreateProduct()
         {
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+            ViewBag.Categories = _context.ProductCategories;
+
             return View();
+        }
+
+        [HttpPost]
+        [Route("createproduct")]
+        public IActionResult CreateProduct(CreateProductView model){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+            if(ModelState.IsValid){
+                Product newProduct = new Product{
+                    Name = model.Name,
+                    Description = model.Description,
+                    CreatedByUserId = (int)HttpContext.Session.GetInt32("CurrentUserId")
+                };
+
+                _context.Products.Add(newProduct);
+                _context.SaveChanges();
+                newProduct = _context.Products.Last();
+
+                return RedirectToAction("Dashboard", "ShoppingList");
+
+            }
+            else{
+                return View(model);
+            }
         }
 
     }
