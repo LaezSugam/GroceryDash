@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Create New Shopping List";
+}
+
+@model GroceryDash.Models.CreateShoppingListView
+
+<form asp-controller="ShoppingList" asp-action="CreateList" method="POST">
+    <p><span asp-validation-for="Name"></span>
+    <label asp-for="Name"></label>
+    <input asp-for="Name" placeholder="List Name"></p>
+    
+    <p><span asp-validation-for="Permanent"></span>
+    <select asp-for="Permanent">
+        <option value="1">Permanent</option>
+        <option value="0">One-Time Use</option>
+        </select></p>
+
+    <input type="submit" value="Create New List">
+</form>

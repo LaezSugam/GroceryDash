@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Create New Product";
+}
+
+
+@model GroceryDash.Models.CreateProductView
+
+    <form asp-controller="Product" asp-action="CreateProduct" method="POST">
+    
+        <p><span asp-validation-for="CategoryId"></span>
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId">
+            <option>
+                
+            </option>
+        </select>
+        </p>
+        
+        <p><span asp-validation-for="Password"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password"></p>
+
+        
+        <p><button type="submit">Login</button></p>
+    
+    </form>
+
+    <p><a href="/register">New User? Register Here! >></a></p>

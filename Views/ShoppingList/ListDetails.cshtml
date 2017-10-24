@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Edit Shopping List";
+}
+
+@using GroceryDash.Models
+
+@if(ViewBag.CurrentList != null){
+    <h3>@ViewBag.CurrentList.Name</h3>
+
+    @foreach(ShoppingListsProducts product in @ViewBag.CurrentList.Products){
+        <p>product.Product.Name</p>
+    }
+}
+
+<form asp-controller="ShoppingList" asp-action="AddToList" method="POST">
+    <p>
+        <select name="productId">
+            <option value="0">Available Products</option>
+            @if(@ViewBag.AllProducts != null){
+                @foreach(Product product in @ViewBag.AllProducts){
+                    <option value="@product.id">@product.Name</option>
+                }
+            }
+            
+        </select>
+        <select name="repeat">
+            <option value="0">Do Not Repeat</option>
+            <option value="1">Repeat Weekly</option>
+            <option value="2">Repeat Bi-Weekly</option>
+            <option value="3">Repeat Monthly</option>
+        </select>
+        <input type="hidden" name="listId" value="@ViewBag.CurrentList.id">
+        <input type="submit" value="Add Product">
+    </p>
+</form>
+
+<a asp-controller="ShoppingList" asp-action="Dashboard">Back to Dashboard</a>

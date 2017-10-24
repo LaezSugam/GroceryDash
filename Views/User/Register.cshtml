@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Log In to Grocery Dash";
+}
+
+
+@model GroceryDash.Models.RegisterUserView
+
+    <form asp-controller="User" asp-action="Register" method="POST">
+        <p><span asp-validation-for="FirstName"></span>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName"></p>
+
+        <p><span asp-validation-for="LastName"></span>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName"></p>
+        
+        <p><span asp-validation-for="Email"></span>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"></p>
+        
+        <p><span asp-validation-for="Password"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password"></p>
+
+        <p><span asp-validation-for="ConfirmPassword"></span>
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword"></p>
+        
+        <p><button type="submit">Register</button></p>
+        
+    </form>

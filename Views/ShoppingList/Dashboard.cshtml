@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Welcome to Grocery Dash!";
+}
+
+@using GroceryDash.Models
+
+<h3>Welcome, @ViewBag.CurrentUserFirstName</h3>
+
+@{
+    User user = (User)ViewBag.FullUser;
+    @if(@user.MyShoppingLists.Count > 0){
+    
+        @foreach(var list in user.MyShoppingLists){
+            <p>@list.ShoppingList.Name <a asp-controller="ShoppingList" asp-action="ListDetails" asp-route-id="@list.ShoppingList.id"><button>Edit</button></a></p>
+        }
+    }
+}
+
+<p><a asp-controller="ShoppingList" asp-action="CreateList"><button>Build New List</button></a></p>
+
+<p><a asp-controller="Product" asp-action="CreateProduct"><button>Add New Product</button></a></p>
