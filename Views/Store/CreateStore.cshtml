@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Create New Store";
+}
+
+@using GroceryDash.Models
+
+@model GroceryDash.Models.CreateStoreView
+
+    <form asp-controller="Store" asp-action="CreateStore" method="POST">
+    
+
+        
+        <p><span asp-validation-for="Name"></span>
+        <label asp-for="Name"></label>
+        <input asp-for="Name"></p>
+
+        <p><span asp-validation-for="Address1"></span>
+        <label asp-for="Address1"></label>
+        <input asp-for="Address1"></p>
+
+        <p><span asp-validation-for="Address2"></span>
+        <label asp-for="Address2"></label>
+        <input asp-for="Address2"></p>
+
+        <p><span asp-validation-for="City"></span>
+        <label asp-for="City"></label>
+        <input asp-for="City"></p>
+
+        <p><span asp-validation-for="State"></span>
+        <label asp-for="State"></label>
+        <input asp-for="State"></p>
+
+        <p><span asp-validation-for="Zip"></span>
+        <label asp-for="Zip"></label>
+        <input asp-for="Zip"></p>
+
+        <p><span asp-validation-for="Description"></span>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description"></textarea></p>
+
+        
+        <p><button type="submit">Create Store</button></p>
+    
+    </form>

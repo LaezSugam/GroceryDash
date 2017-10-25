@@ -11,63 +11,49 @@ using GroceryDash.Models;
 
 namespace GroceryDash.Controllers
 {
-    public class ProductController : Controller
+    public class StoreController : Controller
     {
         private GroceryDashContext _context;
 
-        public ProductController(GroceryDashContext context){
+        public StoreController(GroceryDashContext context){
             _context = context;
         }
 
         // GET: /Home/
         [HttpGet]
-        [Route("createproduct")]
-        public IActionResult CreateProduct()
+        [Route("createstore")]
+        public IActionResult CreateStore()
         {
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
 
-            ViewBag.Categories = _context.ProductCategories;
-
             return View();
         }
 
         [HttpPost]
-        [Route("createproduct")]
-        public IActionResult CreateProduct(CreateProductView model){
+        [Route("createstore")]
+        public IActionResult CreateStore(CreateStoreView model){
 
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
 
-           System.Console.WriteLine(" ");
-           foreach(var item in model.CategoryId){
-               System.Console.WriteLine(item);
-           }
-           System.Console.WriteLine(" ");
-
-
             if(ModelState.IsValid){
-                Product newProduct = new Product{
+                Store newStore = new Store{
                     Name = model.Name,
+                    Address1 = model.Address1,
+                    Address2 = model.Address2,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip,
                     Description = model.Description,
                     CreatedByUserId = (int)HttpContext.Session.GetInt32("CurrentUserId")
                 };
 
-                _context.Products.Add(newProduct);
+                _context.Stores.Add(newStore);
                 _context.SaveChanges();
-                newProduct = _context.Products.Last();
-
-                foreach(int catId in model.CategoryId){
-                    ProductsProductCategories newPPC = new ProductsProductCategories{
-                        ProductCategoryId = catId,
-                        ProductId = newProduct.id
-                    };
-                    _context.ProductsProductCategories.Add(newPPC);
-                }
-
-                _context.SaveChanges();
+                newStore = _context.Stores.Last();
 
 
                 return RedirectToAction("Dashboard", "ShoppingList");

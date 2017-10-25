@@ -11,18 +11,18 @@ using GroceryDash.Models;
 
 namespace GroceryDash.Controllers
 {
-    public class ProductController : Controller
+    public class ProductCategoryController : Controller
     {
         private GroceryDashContext _context;
 
-        public ProductController(GroceryDashContext context){
+        public ProductCategoryController(GroceryDashContext context){
             _context = context;
         }
 
         // GET: /Home/
         [HttpGet]
-        [Route("createproduct")]
-        public IActionResult CreateProduct()
+        [Route("createproductcategory")]
+        public IActionResult CreateProductCategory()
         {
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
@@ -34,39 +34,22 @@ namespace GroceryDash.Controllers
         }
 
         [HttpPost]
-        [Route("createproduct")]
-        public IActionResult CreateProduct(CreateProductView model){
+        [Route("createproductcategory")]
+        public IActionResult CreateProductCategory(CreateProductCategoryView model){
 
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
 
-           System.Console.WriteLine(" ");
-           foreach(var item in model.CategoryId){
-               System.Console.WriteLine(item);
-           }
-           System.Console.WriteLine(" ");
-
 
             if(ModelState.IsValid){
-                Product newProduct = new Product{
+                ProductCategory newProductCategory = new ProductCategory{
                     Name = model.Name,
                     Description = model.Description,
                     CreatedByUserId = (int)HttpContext.Session.GetInt32("CurrentUserId")
                 };
 
-                _context.Products.Add(newProduct);
-                _context.SaveChanges();
-                newProduct = _context.Products.Last();
-
-                foreach(int catId in model.CategoryId){
-                    ProductsProductCategories newPPC = new ProductsProductCategories{
-                        ProductCategoryId = catId,
-                        ProductId = newProduct.id
-                    };
-                    _context.ProductsProductCategories.Add(newPPC);
-                }
-
+                _context.ProductCategories.Add(newProductCategory);
                 _context.SaveChanges();
 
 

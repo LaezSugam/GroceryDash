@@ -33,5 +33,11 @@ namespace GroceryDash.Models
             Isles = new List<IslesProductCategories>();
         }
     }
+    public class CreateProductCategoryView: BaseEntity{
+        [Required]
+        public string Name {get; set;}
+
+        public string Description {get; set;}
+    }
     
 }

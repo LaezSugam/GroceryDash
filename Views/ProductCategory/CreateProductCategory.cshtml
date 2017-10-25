@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Create New Product Category";
+}
+
+@using GroceryDash.Models
+
+@model GroceryDash.Models.CreateProductCategoryView
+
+    <form asp-controller="Product" asp-action="CreateProductCategory" method="POST">
+         
+        <p><span asp-validation-for="Name"></span>
+        <label asp-for="Name"></label>
+        <input asp-for="Name"></p>
+
+        <p><span asp-validation-for="Description"></span>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description"></textarea></p>
+
+        
+        <p><button type="submit">Create Product Category</button></p>
+    
+    </form>
