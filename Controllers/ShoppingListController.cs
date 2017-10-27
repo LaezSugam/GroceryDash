@@ -128,5 +128,82 @@ namespace GroceryDash.Controllers
 
            return RedirectToAction("ListDetails", new {id = listId});
        }
+
+       [HttpGet]
+       [Route("goshopping/{listId}")]
+       public IActionResult GoShopping(int listId){
+
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           ViewBag.Stores = _context.Stores;
+           ViewBag.ShoppingList = _context.ShoppingLists.SingleOrDefault(sl => sl.id == listId);
+
+           return View();
+       }
+
+       [HttpPost]
+       [Route("goshopping/{listId}")]
+       public IActionResult GoShopping(int listId, int storeId){
+
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           TempData["listId"] = listId;
+           TempData["storeId"] = storeId;
+
+           return RedirectToAction("ShoppingTrip");
+       }
+
+       [HttpGet]
+       [Route("shoppingtrip")]
+       public IActionResult ShoppingTrip(){
+
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           if(TempData["listId"] == null || TempData["storeId"] == null){
+               return RedirectToAction("Dashboard");
+           }
+
+           int storeId = (int)TempData["storeId"];
+           int listId = (int)TempData["listId"];
+
+           Store store = _context.Stores.Where(s => s.id == storeId).Include(s => s.Isles).ThenInclude(i => i.ProductCategories).ThenInclude(pc => pc.ProductCategory).ThenInclude(pc => pc.Products).ThenInclude(ppc => ppc.Product).SingleOrDefault();
+
+            store.Isles.Sort((i1, i2) => i1.Position.CompareTo(i2.Position));
+
+           ShoppingList sList = _context.ShoppingLists.Where(sl => sl.id == listId).Include(sl => sl.ShoppingListUsers).Include(sl => sl.Products).ThenInclude(slp => slp.Product).ThenInclude(p => p.ProductCategories).SingleOrDefault();
+
+           List<IsleProducts> isles = new List<IsleProducts>();
+
+           foreach(Isle isle in store.Isles){
+               IsleProducts ip = new IsleProducts(isle);
+               List<Product> inventory = new List<Product>();
+
+               foreach(IslesProductCategories cat in ip.ProductCategories){
+                   foreach(ProductsProductCategories product in cat.ProductCategory.Products){
+                       inventory.Add(product.Product);
+                   } 
+               }
+               foreach(ShoppingListsProducts product in sList.Products){
+                   if(inventory.Contains(product.Product)){
+                       ip.Products.Add(product.Product);
+                   };
+               }
+
+               isles.Add(ip);
+
+           }
+
+           ViewBag.Store = store;
+           ViewBag.ShoppingList = sList;
+           ViewBag.Isles = isles;
+
+           return View();
+       }
     }
 }

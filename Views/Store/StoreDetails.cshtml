@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Store Details";
+}
+
+@using GroceryDash.Models
+
+<h3>@ViewBag.Store.Name</h3>
+
+@if(@ViewBag.Store.Isles != null){
+    @foreach(Isle isle in ViewBag.Store.Isles){
+        string seperator = ", ";
+        int i = 1;
+        <h4>Isle @isle.Position - @isle.Name</h4>
+        <p>@foreach(IslesProductCategories cat in isle.ProductCategories){
+               @cat.ProductCategory.Name
+               if(i < isle.ProductCategories.Count){
+                   @seperator
+                }
+                i++;
+            }
+        </p>
+    }
+}
+
+<p><a asp-controller="Isle" asp-action="CreateIsle" asp-route-id="@ViewBag.Store.id"><button>Add Isle</button></a></p>

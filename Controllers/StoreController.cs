@@ -64,5 +64,32 @@ namespace GroceryDash.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("stores")]
+        public IActionResult Stores(){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+            ViewBag.Stores = _context.Stores;
+
+            return View();
+        }
+
+
+        [HttpGet]
+        [Route("storedetails/{id}")]
+        public IActionResult StoreDetails(int id){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+            ViewBag.Store = _context.Stores.Where(s => s.id == id).Include(s => s.Isles).ThenInclude(i => i.ProductCategories).ThenInclude(pc => pc.ProductCategory).SingleOrDefault();
+
+            return View();
+        }
+
     }
 }

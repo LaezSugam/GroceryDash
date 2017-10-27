@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = "Stores";
+}
+
+@using GroceryDash.Models
+
+@if(ViewBag.Stores != null){
+    @foreach(Store store in ViewBag.Stores){
+        <p><a asp-controller="Store" asp-action="StoreDetails" asp-route-id="@store.id">@store.Name</a></p>
+    }
+}

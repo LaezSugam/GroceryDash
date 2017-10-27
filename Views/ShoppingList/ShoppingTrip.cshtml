@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Shopping Trip";
+}
+
+@using GroceryDash.Models
+
+@if(@ViewBag.ShoppingList != null && @ViewBag.Store != null && @ViewBag.Isles != null){
+    <h3>@ViewBag.ShoppingList.Name - @ViewBag.Store.Name</h3>
+
+   
+    @foreach(IsleProducts isle in ViewBag.Isles){
+
+        string seperator = ", ";
+        int i = 1;
+
+        <h4>Isle @isle.Position - @isle.Name</h4>
+
+        <p>@foreach(IslesProductCategories cat in isle.ProductCategories){
+               @cat.ProductCategory.Name
+               if(i < isle.ProductCategories.Count){
+                   @seperator
+                }
+                i++;
+            }
+        </p>
+        
+        <ul>
+
+            @foreach(Product product in isle.Products){
+                <li>@product.Name</li>
+            }
+        </ul>
+        
+    }
+}
+

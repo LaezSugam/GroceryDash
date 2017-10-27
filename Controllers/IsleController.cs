@@ -11,55 +11,58 @@ using GroceryDash.Models;
 
 namespace GroceryDash.Controllers
 {
-    public class ProductController : Controller
+    public class IsleController : Controller
     {
         private GroceryDashContext _context;
 
-        public ProductController(GroceryDashContext context){
+        public IsleController(GroceryDashContext context){
             _context = context;
         }
 
         // GET: /Home/
         [HttpGet]
-        [Route("createproduct")]
-        public IActionResult CreateProduct()
+        [Route("createisle/{id}")]
+        public IActionResult CreateIsle(int id)
         {
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
 
             ViewBag.Categories = _context.ProductCategories;
+            ViewBag.StoreId = id;
 
             return View();
         }
 
         [HttpPost]
-        [Route("createproduct")]
-        public IActionResult CreateProduct(CreateProductView model){
+        [Route("createisle/{id}")]
+        public IActionResult CreateIsle(CreateIsleView model, int id){
 
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
 
-            ViewBag.Categories = _context.ProductCategories;
+           ViewBag.Categories = _context.ProductCategories;
+           ViewBag.StoreId = id;
 
             if(ModelState.IsValid){
-                Product newProduct = new Product{
+                Isle newIsle = new Isle{
                     Name = model.Name,
-                    Description = model.Description,
-                    CreatedByUserId = (int)HttpContext.Session.GetInt32("CurrentUserId")
+                    Position = model.Position,
+                    CreatedByUserId = (int)HttpContext.Session.GetInt32("CurrentUserId"),
+                    StoreId = id
                 };
 
-                _context.Products.Add(newProduct);
+                _context.Isles.Add(newIsle);
                 _context.SaveChanges();
-                newProduct = _context.Products.Last();
+                newIsle = _context.Isles.Last();
 
                 foreach(int catId in model.CategoryId){
-                    ProductsProductCategories newPPC = new ProductsProductCategories{
+                    IslesProductCategories newIPC = new IslesProductCategories{
                         ProductCategoryId = catId,
-                        ProductId = newProduct.id
+                        IsleId = newIsle.id
                     };
-                    _context.ProductsProductCategories.Add(newPPC);
+                    _context.IslesProductCategories.Add(newIPC);
                 }
 
                 _context.SaveChanges();

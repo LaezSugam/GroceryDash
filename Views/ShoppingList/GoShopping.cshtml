@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Let's Go Shopping";
+}
+
+@using GroceryDash.Models
+
+@if(@ViewBag.ShoppingList != null){
+    <h3>@ViewBag.ShoppingList.Name</h3>
+
+    <form asp-controller="ShoppingList" asp-action="GoShopping" asp-route-listId="@ViewBag.ShoppingList.id" method="POST">
+        <select name="storeId">
+            @if(@ViewBag.Stores != null){
+                @foreach(Store store in @ViewBag.Stores){
+                    <option value="@store.id">@store.Name</option>
+                }
+            }
+        </select>
+
+        <input type="submit" value="Choose Store">
+    </form>
+}
+

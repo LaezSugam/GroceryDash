@@ -11,7 +11,7 @@
     @if(@user.MyShoppingLists.Count > 0){
     
         @foreach(var list in user.MyShoppingLists){
-            <p>@list.ShoppingList.Name <a asp-controller="ShoppingList" asp-action="ListDetails" asp-route-id="@list.ShoppingList.id"><button>Edit</button></a></p>
+            <p>@list.ShoppingList.Name <a asp-controller="ShoppingList" asp-action="ListDetails" asp-route-id="@list.ShoppingList.id"><button>Edit</button></a> <a asp-controller="ShoppingList" asp-action="GoShopping" asp-route-listId="@list.ShoppingList.id"><button>Go Shopping</button></a></p>
         }
     }
 }
