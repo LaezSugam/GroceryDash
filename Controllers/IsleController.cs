@@ -68,7 +68,7 @@ namespace GroceryDash.Controllers
                 _context.SaveChanges();
 
 
-                return RedirectToAction("Dashboard", "ShoppingList");
+                return RedirectToAction("StoreDetails", "Store", new {id = id});
 
             }
             else{

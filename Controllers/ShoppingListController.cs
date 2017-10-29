@@ -205,5 +205,50 @@ namespace GroceryDash.Controllers
 
            return View();
        }
+
+       [HttpGet]
+       [Route("markcomplete/{id}")]
+        public IActionResult MarkComplete(int id){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           ShoppingList thisList = _context.ShoppingLists.SingleOrDefault(sl => sl.id == id);
+
+           System.Console.WriteLine(" ");
+            System.Console.WriteLine(thisList.Name);
+            System.Console.WriteLine(thisList.Permanent);
+           System.Console.WriteLine(" ");
+
+           if(thisList.Permanent == 0){
+               IEnumerable<UsersShoppingLists> usls = _context.UsersShoppingLists.Where(usl => usl.ShoppingListId == id);
+                IEnumerable<ShoppingListsProducts> slps = _context.ShoppingListsProducts.Where(slp => slp.ShoppingListId == id);
+
+                foreach(UsersShoppingLists usl in usls){
+                    _context.UsersShoppingLists.Remove(usl);
+                }
+
+                foreach(ShoppingListsProducts slp in slps){
+                    _context.ShoppingListsProducts.Remove(slp);
+                }
+
+                _context.ShoppingLists.Remove(thisList);
+
+           }
+           else{
+               IEnumerable<ShoppingListsProducts> slps = _context.ShoppingListsProducts.Where(slp => slp.ShoppingListId == id);
+
+               foreach(ShoppingListsProducts slp in slps){
+                   if(slp.Repeat == 0){
+                       _context.ShoppingListsProducts.Remove(slp);
+                   }
+                }
+           }
+
+           _context.SaveChanges();
+
+            return RedirectToAction("Dashboard");
+        }
     }
 }

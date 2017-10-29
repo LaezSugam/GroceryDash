@@ -56,7 +56,7 @@ namespace GroceryDash.Controllers
                 newStore = _context.Stores.Last();
 
 
-                return RedirectToAction("Dashboard", "ShoppingList");
+                return RedirectToAction("StoreDetails", new {id = newStore.id});
 
             }
             else{

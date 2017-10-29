@@ -27,10 +27,12 @@
         <ul>
 
             @foreach(Product product in isle.Products){
-                <li>@product.Name</li>
+                <li>@product.Name <input type="checkbox"></li>
             }
         </ul>
         
     }
+
+    <p><a asp-controller="ShoppingList" asp-action="MarkComplete" asp-route-id="@ViewBag.ShoppingList.id"><button>Mark Trip Complete</button></a></p>
 }
 
