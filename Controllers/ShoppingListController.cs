@@ -105,6 +105,22 @@ namespace GroceryDash.Controllers
            return View();
        }
 
+       [HttpGet]
+       [Route("removefromlist/{id}")]
+       public IActionResult RemoveFromList(int id){
+           if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           ShoppingListsProducts product = _context.ShoppingListsProducts.SingleOrDefault(slp => slp.id == id);
+           int listId = product.ShoppingListId;
+
+           _context.ShoppingListsProducts.Remove(product);
+           _context.SaveChanges();
+
+           return RedirectToAction("ListDetails", new {id = listId});
+       }
+
        [HttpPost]
        [Route("addtolist")]
        public IActionResult AddToList(int productId, int repeat, int listId){
@@ -117,7 +133,7 @@ namespace GroceryDash.Controllers
                ShoppingListsProducts toAdd = new ShoppingListsProducts{
                    ShoppingListId = listId,
                    ProductId = productId,
-                   Repeat = repeat
+                   Repeat = repeat,
                };
 
                _context.ShoppingListsProducts.Add(toAdd);
@@ -191,12 +207,14 @@ namespace GroceryDash.Controllers
                }
                foreach(ShoppingListsProducts product in sList.Products){
                    if(inventory.Contains(product.Product)){
-                       ip.Products.Add(product.Product);
+                       if(product.RepeatAfter < DateTime.Now){
+                           ip.Products.Add(product.Product);
+                       } 
                    };
                }
-
-               isles.Add(ip);
-
+                if(ip.Products.Count > 0){
+                    isles.Add(ip);
+                }
            }
 
            ViewBag.Store = store;
@@ -242,6 +260,14 @@ namespace GroceryDash.Controllers
                foreach(ShoppingListsProducts slp in slps){
                    if(slp.Repeat == 0){
                        _context.ShoppingListsProducts.Remove(slp);
+                   }
+                   else if(slp.Repeat == 2 && slp.RepeatAfter < DateTime.Now){
+                       slp.RepeatAfter = slp.RepeatAfter.AddDays(7);
+                       _context.ShoppingListsProducts.Update(slp);
+                   }
+                   else if(slp.Repeat == 3 && slp.RepeatAfter < DateTime.Now){
+                       slp.RepeatAfter = slp.RepeatAfter.AddMonths(1);
+                       _context.ShoppingListsProducts.Update(slp);
                    }
                 }
            }

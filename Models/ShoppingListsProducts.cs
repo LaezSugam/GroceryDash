@@ -17,6 +17,12 @@ namespace GroceryDash.Models
         public Product Product {get; set;}
 
         public int Repeat {get; set;}
+
+        public DateTime RepeatAfter {get; set;}
+
+        public ShoppingListsProducts(){
+            RepeatAfter = DateTime.Now;
+        }
     }
     
 }

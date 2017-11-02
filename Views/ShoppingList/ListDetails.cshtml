@@ -8,7 +8,7 @@
     <h3>@ViewBag.CurrentList.Name</h3>
 
     @foreach(ShoppingListsProducts product in @ViewBag.CurrentList.Products){
-        <p>@product.Product.Name</p>
+        <p>@product.Product.Name <a asp-controller="ShoppingList" asp-action="RemoveFromList" asp-route-id="@product.id"><button>Remove</button></a></p>
     }
 }
 
