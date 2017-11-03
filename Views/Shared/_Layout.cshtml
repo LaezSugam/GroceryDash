@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <div>Grocery Dash @if(@ViewBag.CurrentUserFirstName != null){
+            <span>| @ViewBag.CurrentUserFirstName | <a asp-controller="ShoppingList" asp-action="Dashboard">Dashboard</a> | <a asp-controller="Home" asp-action="Logout">Logout</a></span>
+        }
+        
+    </div>
     <div class="container body-content">
         @RenderBody()
     </div>

@@ -28,6 +28,8 @@ namespace GroceryDash.Controllers
                return RedirectToAction("Index", "Home");
            }
 
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
+
             ViewBag.Categories = _context.ProductCategories;
 
             return View();

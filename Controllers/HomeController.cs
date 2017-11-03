@@ -15,5 +15,12 @@ namespace GroceryDash.Controllers
         {
             return RedirectToAction("Login", "User");
         }
+
+        [HttpGet]
+        [Route("logout")]
+        public IActionResult Logout(){
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
     }
 }

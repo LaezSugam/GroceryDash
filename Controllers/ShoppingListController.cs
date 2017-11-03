@@ -42,6 +42,8 @@ namespace GroceryDash.Controllers
                return RedirectToAction("Index", "Home");
            }
 
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
+
            return View();
        }
 
@@ -52,6 +54,8 @@ namespace GroceryDash.Controllers
            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
 
            if(ModelState.IsValid){
                ShoppingList newList = new ShoppingList{
@@ -87,6 +91,8 @@ namespace GroceryDash.Controllers
            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
 
            ShoppingList currentList = _context.ShoppingLists.Where(sl => sl.id == id).Include(sl => sl.ShoppingListUsers).Include(sl => sl.Products).ThenInclude(p => p.Product).SingleOrDefault();
 
@@ -129,7 +135,7 @@ namespace GroceryDash.Controllers
                return RedirectToAction("Index", "Home");
            }
 
-           if(productId >= 0){
+           if(productId > 0){
                ShoppingListsProducts toAdd = new ShoppingListsProducts{
                    ShoppingListId = listId,
                    ProductId = productId,
@@ -152,6 +158,8 @@ namespace GroceryDash.Controllers
            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
 
            ViewBag.Stores = _context.Stores;
            ViewBag.ShoppingList = _context.ShoppingLists.SingleOrDefault(sl => sl.id == listId);
@@ -184,6 +192,8 @@ namespace GroceryDash.Controllers
            if(TempData["listId"] == null || TempData["storeId"] == null){
                return RedirectToAction("Dashboard");
            }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
 
            int storeId = (int)TempData["storeId"];
            int listId = (int)TempData["listId"];
