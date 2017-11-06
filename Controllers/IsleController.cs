@@ -103,11 +103,7 @@ namespace GroceryDash.Controllers
                return RedirectToAction("Index", "Home");
            }
 
-           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
-            ViewBag.Categories = _context.ProductCategories;
             Isle currentIsle = _context.Isles.Where(isle => isle.id == id).Include(isle => isle.ProductCategories).ThenInclude(ipc => ipc.ProductCategory).SingleOrDefault();
-            ViewBag.Isle = currentIsle;
-
 
             if(ModelState.IsValid){
                 
@@ -137,10 +133,14 @@ namespace GroceryDash.Controllers
                 _context.SaveChanges();
 
 
-                return RedirectToAction("StoreDetails", "Store", new {id = id});
+                return RedirectToAction("StoreDetails", "Store", new {id = currentIsle.StoreId});
 
             }
             else{
+                ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
+                ViewBag.Categories = _context.ProductCategories;
+                ViewBag.Isle = currentIsle;
+
                 return View(model);
             }
         }
