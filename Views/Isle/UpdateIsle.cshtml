@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Create New Isle";
+}
+
+@using GroceryDash.Models
+
+@model GroceryDash.Models.CreateIsleView
+
+    <form asp-controller="Isle" asp-action="UpdateIsle" asp-route-id="@ViewBag.Isle.id" method="POST">
+
+        <p><span asp-validation-for="Name"></span>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" value="@ViewBag.Isle.Name"></p>
+
+        <p><span asp-validation-for="Position"></span>
+        <label asp-for="Position"></label>
+        <input asp-for="Position" value="@ViewBag.Isle.Position"></p>
+    
+        <p><span asp-validation-for="CategoryId"></span>
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" multiple>
+            @if(@ViewBag.Categories != null){
+                
+                @foreach(ProductCategory category in ViewBag.Categories){
+                    Boolean selected = false;
+                    @foreach(IslesProductCategories ipc in @ViewBag.Isle.ProductCategories){
+                        @if(ipc.ProductCategoryId == category.id){
+                            selected = true;
+                        }
+                    }
+                    @if(selected){
+                        <option value="@category.id" selected>@category.Name</option>
+                    }
+                    else{
+                        <option value="@category.id">@category.Name</option>
+                    }
+                    
+                }
+            }
+            <option>
+
+            </option>
+        </select>
+        </p>
+        
+        <p><button type="submit">Update Isle</button></p>
+    
+    </form>

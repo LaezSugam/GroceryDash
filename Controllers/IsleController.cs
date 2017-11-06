@@ -19,7 +19,6 @@ namespace GroceryDash.Controllers
             _context = context;
         }
 
-        // GET: /Home/
         [HttpGet]
         [Route("createisle/{id}")]
         public IActionResult CreateIsle(int id)
@@ -36,6 +35,22 @@ namespace GroceryDash.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Route("updateisle/{id}")]
+        public IActionResult UpdateIsle(int id)
+        {
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
+
+            ViewBag.Isle = _context.Isles.Where(isle => isle.id == id).Include(isle => isle.ProductCategories).ThenInclude(ipc => ipc.ProductCategory).SingleOrDefault();
+            ViewBag.Categories = _context.ProductCategories;
+
+            return View();
+        }
+
         [HttpPost]
         [Route("createisle/{id}")]
         public IActionResult CreateIsle(CreateIsleView model, int id){
@@ -43,6 +58,8 @@ namespace GroceryDash.Controllers
             if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
                return RedirectToAction("Index", "Home");
            }
+
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
 
            ViewBag.Categories = _context.ProductCategories;
            ViewBag.StoreId = id;
@@ -63,6 +80,49 @@ namespace GroceryDash.Controllers
                     IslesProductCategories newIPC = new IslesProductCategories{
                         ProductCategoryId = catId,
                         IsleId = newIsle.id
+                    };
+                    _context.IslesProductCategories.Add(newIPC);
+                }
+
+                _context.SaveChanges();
+
+
+                return RedirectToAction("StoreDetails", "Store", new {id = id});
+
+            }
+            else{
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [Route("updateisle/{id}")]
+        public IActionResult UpdateIsle(CreateIsleView model, int id){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
+           ViewBag.Categories = _context.ProductCategories;
+           Isle currentIsle = _context.Isles.Where(isle => isle.id == id).Include(isle => isle.ProductCategories).ThenInclude(ipc => ipc.ProductCategory).SingleOrDefault();
+
+            if(ModelState.IsValid){
+                
+                currentIsle.Name = model.Name;
+                currentIsle.Position = model.Position;
+
+
+                _context.Isles.Update(currentIsle);
+
+    // very lazy way to change the categories, update this so we aren't deleting and adding so many rows
+                foreach(IslesProductCategories ipc in currentIsle.ProductCategories){
+                    _context.IslesProductCategories.Remove(ipc);
+                }
+
+                foreach(int catId in model.CategoryId){
+                    IslesProductCategories newIPC = new IslesProductCategories{
+                        ProductCategoryId = catId,
+                        IsleId = currentIsle.id
                     };
                     _context.IslesProductCategories.Add(newIPC);
                 }

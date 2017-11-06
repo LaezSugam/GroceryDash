@@ -10,7 +10,7 @@
     @foreach(Isle isle in ViewBag.Store.Isles){
         string seperator = ", ";
         int i = 1;
-        <h4>Isle @isle.Position - @isle.Name</h4>
+        <h4>Isle @isle.Position - @isle.Name <a asp-controller="Isle" asp-action="UpdateIsle" asp-route-id="@isle.id"><button>Edit</button></a></h4>
         <p>@foreach(IslesProductCategories cat in isle.ProductCategories){
                @cat.ProductCategory.Name
                if(i < isle.ProductCategories.Count){
