@@ -97,5 +97,49 @@ namespace GroceryDash.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Route("updatestore/{id}")]
+        public IActionResult UpdateStore(int id){
+            Store currentStore = _context.Stores.SingleOrDefault(store => store.id == id);
+            CreateStoreView storeViewModel = new CreateStoreView{
+                Name = currentStore.Name,
+                Address1 = currentStore.Address1,
+                Address2 = currentStore.Address2,
+                City = currentStore.City,
+                State = currentStore.State,
+                Zip = currentStore.Zip,
+                Description = currentStore.Description
+            };
+
+            ViewBag.StoreId = id;
+            return View(storeViewModel);
+        }
+
+        [HttpPost]
+        [Route("updatestore/{id}")]
+        public IActionResult UpdateStore(CreateStoreView model, int id){
+            if(ModelState.IsValid){
+                Store currentStore = _context.Stores.SingleOrDefault(store => store.id == id);
+
+                currentStore.Name = model.Name;
+                currentStore.Address1 = model.Address1;
+                currentStore.Address2 = model.Address2;
+                currentStore.City = model.City;
+                currentStore.State = model.State;
+                currentStore.Zip = model.Zip;
+                currentStore.Description = model.Description;
+                currentStore.updated_at = DateTime.Now;
+
+                _context.Stores.Update(currentStore);
+                _context.SaveChanges();
+                return RedirectToAction("StoreDetails", new {id = id});
+            }
+            else{
+                ViewBag.StoreId = id;
+                return View(model);
+            }
+            
+        }
+
     }
 }
