@@ -103,8 +103,11 @@ namespace GroceryDash.Controllers
                return RedirectToAction("Index", "Home");
            }
 
-           ViewBag.Categories = _context.ProductCategories;
-           Isle currentIsle = _context.Isles.Where(isle => isle.id == id).Include(isle => isle.ProductCategories).ThenInclude(ipc => ipc.ProductCategory).SingleOrDefault();
+           ViewBag.CurrentUserFirstName = HttpContext.Session.GetString("CurrentUserFirstName");
+            ViewBag.Categories = _context.ProductCategories;
+            Isle currentIsle = _context.Isles.Where(isle => isle.id == id).Include(isle => isle.ProductCategories).ThenInclude(ipc => ipc.ProductCategory).SingleOrDefault();
+            ViewBag.Isle = currentIsle;
+
 
             if(ModelState.IsValid){
                 
@@ -114,9 +117,13 @@ namespace GroceryDash.Controllers
 
                 _context.Isles.Update(currentIsle);
 
-    // very lazy way to change the categories, update this so we aren't deleting and adding so many rows
                 foreach(IslesProductCategories ipc in currentIsle.ProductCategories){
-                    _context.IslesProductCategories.Remove(ipc);
+                    if(model.CategoryId.Contains(ipc.ProductCategoryId)){
+                        model.CategoryId.Remove(ipc.ProductCategoryId);
+                    }
+                    else{
+                        _context.IslesProductCategories.Remove(ipc);
+                    } 
                 }
 
                 foreach(int catId in model.CategoryId){
