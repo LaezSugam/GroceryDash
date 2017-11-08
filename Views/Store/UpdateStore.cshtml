@@ -5,6 +5,7 @@
 @using GroceryDash.Models
 
 @model GroceryDash.Models.CreateStoreView
+<h3>Update Store</h3>
 
     <form asp-controller="Store" asp-action="UpdateStore" asp-route-id="@ViewBag.StoreId" method="POST">
     
@@ -42,3 +43,7 @@
         <p><button type="submit">Update Store</button></p>
     
     </form>
+
+<p><a asp-controller="Store" asp-action="StoreDetails" asp-route-id="@ViewBag.StoreId"><button>Back to Store</button></a></p>
+
+<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>

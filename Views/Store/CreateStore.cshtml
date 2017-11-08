@@ -6,6 +6,8 @@
 
 @model GroceryDash.Models.CreateStoreView
 
+<h3>Create New Store</h3>
+
     <form asp-controller="Store" asp-action="CreateStore" method="POST">
     
 
@@ -42,3 +44,5 @@
         <p><button type="submit">Create Store</button></p>
     
     </form>
+
+<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>

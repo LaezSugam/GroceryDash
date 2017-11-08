@@ -46,3 +46,9 @@
         <p><button type="submit">Update Isle</button></p>
     
     </form>
+
+<p><a asp-controller="ProductCategory" asp-action="CreateProductCategory"><button>Add New Product Category</button></a></p>
+
+<p><a asp-controller="Store" asp-action="StoreDetails" asp-route-id="@ViewBag.Isle.StoreId"><button>Back to Store</button></a></p>
+
+<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>

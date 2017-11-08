@@ -100,6 +100,10 @@ namespace GroceryDash.Controllers
         [HttpGet]
         [Route("updatestore/{id}")]
         public IActionResult UpdateStore(int id){
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
+
             Store currentStore = _context.Stores.SingleOrDefault(store => store.id == id);
             CreateStoreView storeViewModel = new CreateStoreView{
                 Name = currentStore.Name,
@@ -118,6 +122,10 @@ namespace GroceryDash.Controllers
         [HttpPost]
         [Route("updatestore/{id}")]
         public IActionResult UpdateStore(CreateStoreView model, int id){
+
+            if(HttpContext.Session.GetString("CurrentUserFirstName") == null){
+               return RedirectToAction("Index", "Home");
+           }
             if(ModelState.IsValid){
                 Store currentStore = _context.Stores.SingleOrDefault(store => store.id == id);
 
