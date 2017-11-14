@@ -34,8 +34,8 @@
     </p>
 </form>
 
-<a asp-controller="ShoppingList" asp-action="GoShopping" asp-route-listId="@ViewBag.CurrentList.id"><button>Go Shopping</button></a>
+<a asp-controller="ShoppingList" asp-action="GoShopping" asp-route-listId="@ViewBag.CurrentList.id"><button class="big-button">Go Shopping</button></a>
 
-<p><a asp-controller="Product" asp-action="CreateProduct"><button>Add New Product</button></a></p>
+<a asp-controller="Product" asp-action="CreateProduct"><button class="big-button">Add New Product</button></a>
 
-<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>
+<a asp-controller="ShoppingList" asp-action="Dashboard"><button class="big-button">Back To Dashboard</button></a>

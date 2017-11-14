@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GroceryDash</title>
-    
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <div>Grocery Dash @if(@ViewBag.CurrentUserFirstName != null){
-            <span>| @ViewBag.CurrentUserFirstName | <a asp-controller="ShoppingList" asp-action="Dashboard">Dashboard</a> | <a asp-controller="Home" asp-action="Logout">Logout</a></span>
+    <div class="top-menu">Grocery Dash @if(@ViewBag.CurrentUserFirstName != null){
+            <div class="menu-user-display"> @ViewBag.CurrentUserFirstName <a class="link-logout" asp-controller="Home" asp-action="Logout">Logout</a></div>
         }
         
     </div>

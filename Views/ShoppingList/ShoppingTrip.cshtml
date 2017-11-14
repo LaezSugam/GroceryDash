@@ -15,25 +15,25 @@
 
         <h4>Isle @isle.Position - @isle.Name</h4>
 
-        <p>@foreach(IslesProductCategories cat in isle.ProductCategories){
+        <h5>@foreach(IslesProductCategories cat in isle.ProductCategories){
                @cat.ProductCategory.Name
                if(i < isle.ProductCategories.Count){
                    @seperator
                 }
                 i++;
             }
-        </p>
+        </h5>
         
-        <ul>
+        <ul class="shopping-trip-list">
 
             @foreach(Product product in isle.Products){
-                <li>@product.Name <input type="checkbox"></li>
+                <li><input class="trip-checkbox" type="checkbox">@product.Name</li>
             }
         </ul>
         
     }
 
-    <p><a asp-controller="ShoppingList" asp-action="MarkComplete" asp-route-id="@ViewBag.ShoppingList.id"><button>Mark Trip Complete</button></a></p>
+    <a asp-controller="ShoppingList" asp-action="MarkComplete" asp-route-id="@ViewBag.ShoppingList.id"><button class="big-button">Mark Trip Complete</button></a>
 }
 
-<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>
+<a asp-controller="ShoppingList" asp-action="Dashboard"><button class="big-button">Back To Dashboard</button></a>

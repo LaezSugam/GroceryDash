@@ -42,13 +42,14 @@
             </option>
         </select>
         </p>
+       
         
-        <p><button type="submit">Update Isle</button></p>
+        <button class="big-button" type="submit" value="Update Isle">Update Isle</button>
     
     </form>
 
-<p><a asp-controller="ProductCategory" asp-action="CreateProductCategory"><button>Add New Product Category</button></a></p>
+<a asp-controller="ProductCategory" asp-action="CreateProductCategory"><button class="big-button">Add New Product Category</button></a>
 
-<p><a asp-controller="Store" asp-action="StoreDetails" asp-route-id="@ViewBag.Isle.StoreId"><button>Back to Store</button></a></p>
+<a asp-controller="Store" asp-action="StoreDetails" asp-route-id="@ViewBag.Isle.StoreId"><button class="big-button">Back to Store</button></a>
 
-<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>
+<a asp-controller="ShoppingList" asp-action="Dashboard"><button class="big-button">Back To Dashboard</button></a>

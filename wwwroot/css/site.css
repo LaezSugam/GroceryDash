@@ -1,1 +1,87 @@
 /*Write all of your CSS here*/
+*{
+    font-family: "PT Sans", sans-serif;
+    box-sizing: border-box;
+    /* outline: dotted 1px red; */
+}
+
+h1, h2, h3, h4, h5{
+    text-align: center;
+}
+
+h4{
+    margin-bottom: .5em;
+}
+
+h5{
+    font-size: .85em;
+    margin-top: 0em;
+}
+
+body{
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+    width: 100%;
+}
+
+button, input[type='submit']{
+    background-color: #C1D4E0;
+    border: none;
+    padding: .2em 5px;
+}
+
+form{
+    margin-bottom: .5em;
+}
+
+textarea{
+    vertical-align: middle;
+}
+
+
+.top-menu{
+    background-color: #7BEFBD;
+    font-size: 1.1em;
+    padding: .7em .5em;
+    vertical-align: middle;
+    display: table;
+    width: 100%;
+}
+
+.menu-user-display{
+   text-align: right;
+   display: table-cell; 
+   margin-left: auto;
+   margin-right: 0;
+}
+
+.link-logout{
+    font-size: .9em;
+    text-decoration: none;
+}
+
+.container{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.big-button{
+    display: inline-block;
+    width: 100%;
+    padding: .5em;
+    margin-bottom: .7em;
+}
+
+.shopping-trip-list{
+    list-style-type: none;
+    padding-left: .5em;
+}
+
+.trip-checkbox{
+    margin-right: 1em;
+}
+
+.multi-selector{
+    vertical-align: top;
+}

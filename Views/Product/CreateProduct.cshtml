@@ -10,7 +10,7 @@
     
         <p><span asp-validation-for="CategoryId"></span>
         <label asp-for="CategoryId"></label>
-        <select asp-for="CategoryId" multiple>
+        <select class="multi-selector" asp-for="CategoryId" multiple>
             @if(@ViewBag.Categories != null){
                 @foreach(ProductCategory category in ViewBag.Categories){
                     <option value="@category.id">@category.Name</option>
@@ -31,8 +31,8 @@
         <textarea asp-for="Description"></textarea></p>
 
         
-        <p><button type="submit">Create Product</button></p>
+        <button type="submit" class="big-button">Create Product</button>
     
     </form>
 
-<p><a asp-controller="ShoppingList" asp-action="Dashboard"><button>Back To Dashboard</button></a></p>
+<a asp-controller="ShoppingList" asp-action="Dashboard"><button class="big-button">Back To Dashboard</button></a>
